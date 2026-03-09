@@ -1,0 +1,66 @@
+<!--
+  Finnish -> English Live Translator — main UI
+
+  Captures microphone audio via the Web Audio API (AudioWorklet), streams
+  raw PCM over a WebSocket to the FastAPI backend, and displays the
+  recognised Finnish text alongside its English translation in real time.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finnish &rarr; English Live Translator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Finnish &rarr; English</h1>
+      <p class="subtitle">Speak Finnish. Get English in real time.</p>
+    </header>
+
+    <!-- Microphone controls: toggle button, status text, audio level meter -->
+    <div class="controls">
+      <button id="micBtn" class="mic-btn" title="Start / stop listening">
+        <!-- Microphone SVG icon (Feather-style) -->
+        <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/>
+          <line x1="8" y1="23" x2="16" y2="23"/>
+        </svg>
+        <!-- Animated ring shown while recording -->
+        <div class="mic-ring"></div>
+      </button>
+
+      <div id="status" class="status">Click the mic to start listening</div>
+
+      <!-- Real-time audio level indicator -->
+      <div class="level-bar">
+        <div id="levelFill" class="level-fill"></div>
+      </div>
+    </div>
+
+    <!-- Side-by-side transcription panels: Finnish (source) and English (translation) -->
+    <div class="panels">
+      <div class="panel">
+        <div class="panel-label">Finnish <span class="lang-tag">fi</span></div>
+        <div id="finnishText" class="panel-text" data-placeholder="Detected Finnish speech will appear here..."></div>
+      </div>
+
+      <div class="panel-arrow">&rarr;</div>
+
+      <div class="panel panel--primary">
+        <div class="panel-label">English <span class="lang-tag">en</span></div>
+        <div id="englishText" class="panel-text" data-placeholder="English translation will appear here..."></div>
+      </div>
+    </div>
+
+    <!-- Clears both transcript panels -->
+    <button id="clearBtn" class="clear-btn">Clear</button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+# ---------------------------------------------------------------------------
+# Finnish-to-English real-time speech translator — Python dependencies
+# ---------------------------------------------------------------------------
+
+# Web framework & server
+fastapi
+uvicorn[standard]          # ASGI server with WebSocket support (includes websockets)
+
+# Speech recognition (ASR)
+faster-whisper             # CTranslate2-accelerated Whisper inference
+
+# Machine translation (Finnish -> English)
+transformers               # Hugging Face model loading & inference
+torch                      # PyTorch backend for MarianMT
+sentencepiece              # Subword tokenizer required by MarianMT
+sacremoses                 # Tokenization / detokenization used by MarianTokenizer
+
+# Utilities
+numpy                      # Audio buffer manipulation
+websockets                 # WebSocket protocol implementation for uvicorn
