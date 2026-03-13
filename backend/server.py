@@ -58,11 +58,20 @@ async def lifespan(app: FastAPI):
     # Auto-detect device: use GPU if available, otherwise CPU
     use_cuda = torch.cuda.is_available()
     device = "cuda" if use_cuda else "cpu"
-    compute_type = "float16" if use_cuda else "int8"
     mt_device = device
 
-    print(f"Loading Whisper model (large-v3-turbo) on {device} ({compute_type})...")
-    whisper_model = WhisperModel("large-v3-turbo", device=device, compute_type=compute_type)
+    # Try compute types in order of preference; some older GPUs don't support float16
+    compute_types = ["float16", "int8_float16", "int8"] if use_cuda else ["int8"]
+    whisper_model = None
+    for compute_type in compute_types:
+        try:
+            print(f"Loading Whisper model (large-v3-turbo) on {device} ({compute_type})...")
+            whisper_model = WhisperModel("large-v3-turbo", device=device, compute_type=compute_type)
+            break
+        except ValueError as e:
+            print(f"  {compute_type} not supported: {e}, trying next...")
+    if whisper_model is None:
+        raise RuntimeError("No supported compute type found for Whisper on this device.")
 
     print("Loading MarianMT fi->en model...")
     mt_model_name = "Helsinki-NLP/opus-mt-fi-en"
