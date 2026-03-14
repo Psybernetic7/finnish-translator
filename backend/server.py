@@ -24,6 +24,8 @@ from contextlib import asynccontextmanager
 import numpy as np
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 # ---------------------------------------------------------------------------
 # Audio processing configuration
@@ -111,6 +113,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+_FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend")
+app.mount("/static", StaticFiles(directory=_FRONTEND_DIR), name="static")
+
+
+@app.get("/")
+async def index():
+    return FileResponse(os.path.join(_FRONTEND_DIR, "index.html"))
 
 
 def _sync_process(audio: np.ndarray) -> tuple[str | None, str | None]:
