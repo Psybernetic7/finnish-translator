@@ -26,7 +26,7 @@
  * Local dev:  'ws://localhost:8000/ws'
  * Modal:      'wss://<your-app>--serve.modal.run/ws'
  */
-const WS_URL = 'wss://blank-view-disabled-century.trycloudflare.com/ws';
+const WS_URL = (location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + location.host + '/ws';
 
 // ---------------------------------------------------------------------------
 // AudioWorklet processor (runs in a dedicated audio thread)
