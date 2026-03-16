@@ -18,3 +18,4 @@ sacremoses                 # Tokenization / detokenization used by MarianTokeniz
 # Utilities
 numpy                      # Audio buffer manipulation
 websockets                 # WebSocket protocol implementation for uvicorn
+aiofiles                   # Required by FastAPI StaticFiles for serving frontend
