@@ -6,6 +6,8 @@ Real-time speech translation that captures Finnish audio from your microphone, t
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
+![Screenshot](sample.jpeg)
+
 ## How It Works
 
 ```
